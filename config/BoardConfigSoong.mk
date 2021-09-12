@@ -61,10 +61,10 @@ SOONG_CONFIG_customQcomVars += \
     uses_qcom_bsp_legacy \
     uses_qti_camera_device
 
-# Only create display_headers_namespace var if dealing with UM platforms to avoid breaking build for all other platforms
+# Only create soong_namespace var if dealing with UM platforms to avoid breaking build for all other platforms
 ifneq ($(filter $(UM_PLATFORMS),$(TARGET_BOARD_PLATFORM)),)
 SOONG_CONFIG_customQcomVars += \
-    qcom_display_headers_namespace
+    qcom_soong_namespace
 endif
 
 # Soong bool variables
@@ -108,10 +108,8 @@ ifneq ($(TARGET_FORCE_BUILD_FINGERPRINT),)
 SOONG_CONFIG_customGlobalVars_force_build_fingerprint := $(TARGET_FORCE_BUILD_FINGERPRINT)
 endif
 
-ifneq ($(filter $(QSSI_SUPPORTED_PLATFORMS),$(TARGET_BOARD_PLATFORM)),)
-SOONG_CONFIG_customQcomVars_qcom_display_headers_namespace := vendor/qcom/opensource/commonsys-intf/display
-else
-SOONG_CONFIG_customQcomVars_qcom_display_headers_namespace := $(QCOM_SOONG_NAMESPACE)/display
+ifneq ($(filter $(UM_PLATFORMS),$(TARGET_BOARD_PLATFORM)),)
+SOONG_CONFIG_customQcomVars_qcom_soong_namespace := $(QCOM_SOONG_NAMESPACE)
 endif
 
 ifneq ($(TARGET_USE_QTI_BT_STACK),true)
